@@ -2,7 +2,7 @@ Bootstrap: docker
 From: nistmni/minc-toolkit-min:1.9.16
 
 %files
-    deformation.pl
+    deformation.pl /usr/local/bin/deformation.pl
 
 %post
     apt-get update && apt-get install -y build-essential gfortran automake libtool git
