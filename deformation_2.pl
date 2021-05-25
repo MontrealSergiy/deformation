@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-# be sure to add dependencies to PATH before running this
+# be sure to app PATHS before running this
 # By Najmeh Khalili-Mahani 
 use strict;
 use Cwd qw/ abs_path /;
@@ -30,10 +30,10 @@ my $Mask;
 my $Tol_space;
 my @Coordinate;
 my $Blur;
-my $Def_Tol;
+my $Def_Tol=0.00001;
 my $DefRatios;
 my $Determinant;
-my $iteration;
+my $iteration=1000;
 
 my $dir_for_temp_files;
 my $target_det_file;
@@ -96,7 +96,7 @@ my @Args =
   ["-iteration", "integer", 1, \$iteration,"Specify the maximum number of iterations to update the deformations field (-1 means until convergence)",'<iteration>']
 );
 
-#none of the following option are used yet
+#none of the following option are used 
 my @ArgvanEede =
  (
    ["-n", "integer", 1, \$neighbors,"Specify the number of neighbors to use in the determinant calculation (possibilities: 6, 14)",'default = 6'],              
@@ -120,12 +120,12 @@ mkdir $OutputDir;
 $dir_for_temp_files= $OutputDir.'/TMP/';
 mkdir $dir_for_temp_files;
 $basename = $InputFile;
-$basename =~ s/\.mnc$//;;
+$basename =~ s/\.mnc$//;
 
 #PREPARE AREAS AROUND THE DEFORMATION    
 $Mask = MakeMask($InputFile, @Coordinate) unless defined $Mask;
 $tolerance_area = TolerationRing($Mask, $Tol_space,$dir_for_temp_files);
-
+print "$tolerance_area\n";
 #CREATE DEFORMATION DETERMINANTS AND TRANSFORMATION MATRICES FOR EACH RATIO
 my @Ratios = split(',', $DefRatios);
 foreach my $r (@Ratios) {
@@ -135,9 +135,10 @@ foreach my $r (@Ratios) {
 
     #PREPARE INTERMEDIATE OUTPUT FILE NAMES
     $determinant= $dir_for_temp_files.'determinant_r_'.$r.$Mask;
+print "$determinant\n";
     $target_xfm=$dir_for_temp_files.'determinant_r_'.$r.'.xfm';
-    $OutputFile=$OutputDir.'/'.$basename.'_deformed_by_'.$r.'atROI'.$Mask;
-
+   # $OutputFile=$OutputDir.'/'.$basename.'_deformed_by_'.$r.'atROI'.$Mask;
+    $OutputFile=$basename.'_deformed_by_'.$r.'atROI'.$Mask;
     #Create a target determinant can be from a mask
     Spawn(['minccalc', '-clobber', '-expression', "(abs(A[0] - 1) < 0.5) ? $r : 1", $Mask, $determinant])&&die;
     
@@ -159,7 +160,7 @@ foreach my $r (@Ratios) {
 sub MakeMask {
 #This subroutine is used if the uses wants to generate a cubic mask area around coordinate x, y, z
    my ($input, $x, $y, $z, $sizex,$sizey,$sizez) = @_;
-   my $reshaped =  'Masked_at_xyz'.$x.$y.$z.'size_'.$sizex.'.'.$sizey.'.'.$sizez.'.'.'.mnc';
+   my $reshaped =  'x'.$x.'-y'.$y.'-z'.$z.'dimx'.$sizex.'.dimy'.$sizey.'.dimz'.$sizez.'.mnc';
    my $block = $dir_for_temp_files.'/block.mnc';
    my $mask =  $dir_for_temp_files.'/mask.mnc';
    Spawn(['mincreshape', '-clobber', '-start', "$x,$y,$z", '-count', "${sizex},${sizey},${sizez}", $input, $block])&&die;
@@ -173,11 +174,13 @@ sub TolerationRing {
     my ($inputfile, $Tolerance_space,$dir_for_temp_files) = @_;
     my $tmp = $dir_for_temp_files;
     my $D="D";
-  
+print "$D\n";
     my $D= "D" x $Tolerance_space;
+print "$D\n";
     my $Tolerance_ring=$tmp.'/'.$D.'ring.mnc';
-    my $Dilated_mask = $tmp.'/',$D.'dilated.mnc';  #this needs to be generalized
-
+print "$Tolerance_ring\n";
+    my $Dilated_mask = $tmp.'/'.$D.'dilated.mnc';  #this needs to be generalized
+print "$Dilated_mask\n";
    die "Tolerance cannot be larger than 20" if ($Tolerance_space >19.5);
    Spawn(['mincmorph', '-clobber', '-successive', $D, $inputfile, $Dilated_mask])&&die;
    Spawn(['minccalc','-clobber', '-expression', 'if(A[0] == 1 && A[1] == 0) {out = 1;} else {out = 0;}', $Dilated_mask, $inputfile,$Tolerance_ring])&&die;
