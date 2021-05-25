@@ -52,7 +52,8 @@ From: nistmni/minc-toolkit-min:1.9.16
                       -deformation_ratio 0.6 \
                       -coordinate 70 100 70 10 10 10 \
                       -tolerance_space 4 `# default`\
-                      -blur_determinant 0.25 `# default`\ -error 0.00001 \
+                      -blur_determinant 0.25 `# default`\
+                      -error 0.00001 \
                       -iteration 100
 
 the text in backtick are comments, can be omitted
