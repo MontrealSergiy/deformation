@@ -7,7 +7,7 @@ https://github.com/Mouse-Imaging-Centre/generate_deformation_fields
 
 Usage
 
-./deformation.pl -input ICBM_00100_t1_final.mnc <<this could be any anatomical minc file, for a collection of minc files>> -output dummy_hoho -deformation_ratio 0.6 -coordinate 70 100 70 10 10 10 -tolerance_space 4 <<default>> -blur_determinant 0.25 <<default>> -error 0.00001 <<default>> -iteration 100 
+   deformation_2.pl -input ICBM_00100_t1_final.mnc <<this could be any anatomical minc file, for a collection of minc files>> -output dummy_hoho -deformation_ratio 0.6 -coordinate 70 100 70 10 10 10 -tolerance_space 4 <<default>> -blur_determinant 0.25 <<default>> -error 0.00001 <<default>> -iteration 100 
 
 
 The output of running this command looks like this:

@@ -47,13 +47,13 @@ From: nistmni/minc-toolkit-min:1.9.16
 
     usage example is
 
-    deformation_2.pl -input ICBM_00100_t1_final.mnc        `# this could be any anatomical minc file`\
-                      -output dummy_hoho \
+s    deformation_2.pl -input ICBM_00100_t1_final.mnc \
+                      -output tmp_deform \
                       -deformation_ratio 0.6 \
                       -coordinate 70 100 70 10 10 10 \
-                      -tolerance_space 4 `# default`\
-                      -blur_determinant 0.25 `# default`\
+                      -tolerance_space 4 \
+                      -blur_determinant 0.25 \
                       -error 0.00001 \
                       -iteration 100
 
-the text in backtick are comments, can be omitted
+
