@@ -3,7 +3,6 @@ From: nistmni/minc-toolkit-min:1.9.16
 
 %files
     deformation.pl /usr/local/bin/deformation.pl
-    deformation_2.pl /usr/local/bin/deformation_2.pl
 
 %post
     apt-get update && apt-get install -y build-essential gfortran automake libtool git
@@ -26,8 +25,7 @@ From: nistmni/minc-toolkit-min:1.9.16
     python setup.py install --prefix=/opt/dfg --install-lib=/usr/local/lib/python2.7/dist-packages
 
     chmod +x /usr/local/bin/deformation.pl
-    chmod +x /usr/local/bin/deformation_2.pl
-
+    
 %test
     grep -q NAME=\"Ubuntu\" /etc/os-release
     if [ $? -eq 0 ]; then
