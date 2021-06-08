@@ -14,7 +14,6 @@ use MNI::Startup;
 use MNI::Spawn;
 use MNI::FileUtilities qw(check_output_dirs check_files);
 use MNI::PathUtilities qw(replace_dir);
-use Getopt::Tabular;
 use MNI::DataDir;
 
 $Clobber = 0;
