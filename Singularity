@@ -45,7 +45,7 @@ From: nistmni/minc-toolkit-min:1.9.16
 
     usage example is
 
-s    deformation_2.pl -input ICBM_00100_t1_final.mnc \
+    deformation.pl -input ICBM_00100_t1_final.mnc \
                       -output tmp_deform \
                       -deformation_ratio 0.6 \
                       -coordinate 70 100 70 10 10 10 \
